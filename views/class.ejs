@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <title>Classes | Matrix Hub</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --theme-primary: #38bdf8;
+      --theme-secondary: #818cf8;
+      --theme-glow-rgba: rgba(56, 189, 248, 0.06);
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #020308;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Premium Translucent Glassmorphism Cards */
+    .card-box {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(35px);
+      -webkit-backdrop-filter: blur(35px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 24px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100%;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 50px var(--theme-glow-rgba);
+      border-color: rgba(56, 189, 248, 0.25);
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #020308;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+    }
+
+    .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #64748b;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #f1f5f9;
+      font-size: 15px;
+    }
+
+    /* Gemini Animated Nebula Text Gradient */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary), #f472b6);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shiftNebulaText 6s linear infinite;
+    }
+
+    @keyframes shiftNebulaText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .badge-custom {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      display: inline-block;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover .badge-custom {
+      border-color: var(--theme-primary);
+      color: #fff;
+      background: rgba(56, 189, 248, 0.04);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="canvas-container"></div>
+
+  <div class="container py-5 relative z-10">
+
+    <div class="mb-5 d-flex justify-content-between align-items-center flex-wrap gap-3 px-1">
+      <div>
+        <h1 class="fw-black text-white mb-2 tracking-tight d-flex align-items-center gap-2" style="font-weight: 800; font-size: calc(1.6rem + 1vw);">
+          <i class="bi bi-door-open text-gradient"></i> Classes Dashboard
+        </h1>
+        <p class="text-secondary small mb-0 fs-6">Global index registry of all course classes structure records</p>
+      </div>
+
+      <a href="/classes/create" class="btn px-4 py-2.5 rounded-3 fw-bold uppercase tracking-wider text-white border-0 shadow-sm" style="background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary)); font-size: 13px;">
+        <i class="bi bi-plus-lg me-1"></i> Create Class
+      </a>
+    </div>
+
+    <div class="row g-4">
+
+      <% if (typeof classes !== 'undefined' && classes && classes.length > 0) { %>
+        <% classes.forEach(function(cls){ %>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card-box d-flex flex-column justify-content-between">
+            <div>
+              
+              <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="avatar">
+                  <%= cls?.ClassName ? cls.ClassName.charAt(0).toUpperCase() : 'C' %>
+                </div>
+
+                <div>
+                  <h5 class="mb-1 fw-bold text-white leading-snug">
+                    <%= cls?.ClassName || '-' %>
+                  </h5>
+                  <span class="badge font-mono text-secondary small p-0" style="color: #64748b; font-size: 11px;">
+                    CLASS-ID: <%= cls?.ClassId || '-' %>
+                  </span>
+                </div>
+              </div>
+
+              <hr style="border-color: rgba(255,255,255,0.06); margin: 1.25rem 0;">
+
+              <div class="d-flex flex-column gap-3 mb-2">
+                <div class="d-flex flex-column">
+                  <span class="label mb-1">Class Structure Name</span>
+                  <span class="value"><%= cls?.ClassName || '-' %></span>
+                </div>
+
+                <div class="d-flex flex-column">
+                  <span class="label mb-1">System Entity ID</span>
+                  <span class="value font-mono text-info opacity-75">#<%= cls?.ClassId || '-' %></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <span class="badge-custom"><i class="bi bi-door-open-fill me-1" style="color: var(--theme-primary);"></i> Active Structure Node</span>
+            </div>
+          </div>
+        </div>
+
+        <% }) %>
+      <% } else { %>
+
+        <div class="col-12">
+          <div class="p-5 text-center rounded-4 border glass theme-glow" style="border-color: rgba(255,255,255,0.05);">
+            <div class="display-5 text-muted mb-3" style="color: var(--theme-primary) !important;"><i class="bi bi-folder-x"></i></div>
+            <h4 class="text-white font-bold mb-1">No Class Structure Assets Found</h4>
+            <p class="text-secondary small mb-0">Initialize the matrix engine by pushing a new class standard profile data.</p>
+          </div>
+        </div>
+
+      <% } %>
+
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const particleCount = 550;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const baseWhiteColor = new THREE.Color('#ffffff');
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 140;
+      positions[i + 1] = (Math.random() - 0.5) * 140;
+      positions[i + 2] = (Math.random() - 0.5) * 140;
+
+      colors[i] = baseWhiteColor.r;
+      colors[i + 1] = baseWhiteColor.g;
+      colors[i + 2] = baseWhiteColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const createCircleTexture = () => {
+      const matCanvas = document.createElement('canvas');
+      matCanvas.width = 16; matCanvas.height = 16;
+      const ctx = matCanvas.getContext('2d');
+      const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+      gradient.addColorStop(0, 'rgba(255,255,255,1)');
+      gradient.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = gradient; ctx.fillRect(0, 0, 16, 16);
+      return new THREE.CanvasTexture(matCanvas);
+    };
+
+    const material = new THREE.PointsMaterial({
+      size: 1.5,
+      map: createCircleTexture(),
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const particleSystem = new THREE.Points(geometry, material);
+    scene.add(particleSystem);
+
+    let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+    window.addEventListener('mousemove', (event) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const clock = new THREE.Clock();
+    const targetParticleColor = new THREE.Color(themeMatrixProfiles?.geminiBlue?.primary || '#38bdf8');
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
+
+      particleSystem.rotation.y = elapsedTime * 0.025;
+      particleSystem.rotation.x = elapsedTime * 0.01;
+
+      targetX += (mouseX - targetX) * 0.04;
+      targetY += (mouseY - targetY) * 0.04;
+      particleSystem.position.x = targetX * 10;
+      particleSystem.position.y = targetY * 10;
+
+      const colorsAttr = geometry.getAttribute('color');
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        if ((i % 5) === 0) {
+          colorsAttr.setXYZ(i / 3, 0.22, 0.74, 0.97); // Radiant light-blue vectors
+        } else {
+          colorsAttr.setXYZ(i / 3, 0.5, 0.55, 0.97); // Deep indigo fallback loops
+        }
+      }
+      colorsAttr.needsUpdate = true;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+  </script>
+</body>
+</html>

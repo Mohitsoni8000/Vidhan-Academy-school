@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <title>Teachers Dashboard | Matrix Hub</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    body {
+      background: #0f172a;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .tech-badge {
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-right: 5px;
+      font-weight: 600;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* System Architecture Badges Stacks */
+    .nodejs { background: #233b22; color: #6cc24a; border: 1px solid rgba(108, 194, 74, 0.2); }
+    .express { background: #22252a; color: #eee; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .sequelize { background: #1e293b; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); }
+    .ejs { background: #3c1e29; color: #b41f24; border: 1px solid rgba(180, 31, 36, 0.2); }
+
+    /* Solid Premium Static Glassmorphic Card Engine */
+    .card-box {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 24px;
+      height: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    .label-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #64748b;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #e2e8f0;
+      font-size: 14px;
+    }
+
+    .badge-custom {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #94a3b8;
+      padding: 5px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      display: inline-block;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+  <div class="mb-5 d-flex justify-content-between align-items-center flex-wrap gap-3 px-1">
+    <div>
+      <h1 class="fw-bold text-white mb-2"><i class="bi bi-person-workspace text-indigo me-2"></i>Teachers Dashboard</h1>
+      <p class="text-secondary mb-3 fs-6">Global registry index of institution faculty and academic profiles</p>
+      
+      <div class="d-flex flex-wrap gap-1">
+        <span class="tech-badge nodejs">NodeJS</span>
+        <span class="tech-badge express">Express</span>
+        <span class="tech-badge sequelize">Sequelize</span>
+        <span class="tech-badge ejs">EJS Template</span>
+      </div>
+    </div>
+
+    <a href="/teachers/create" class="btn btn-primary px-4 py-2.5 rounded-3 fw-bold d-flex align-items-center gap-2" style="background: linear-gradient(135deg, #6366f1, #a855f7); border: none; color: #fff; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);">
+      <i class="bi bi-plus-lg fs-6"></i> Add Teacher
+    </a>
+  </div>
+
+  <div class="row g-4">
+
+    <% if (typeof data !== 'undefined' && data && data.length > 0) { %>
+      <% data.forEach(function(t){ %>
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <div class="card-box d-flex flex-column justify-content-between">
+          <div>
+            
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="avatar">
+                <%= t.Name ? t.Name.charAt(0).toUpperCase() : 'T' %>
+              </div>
+
+              <div>
+                <h5 class="mb-1 fw-bold text-white leading-snug"><%= t.Name %></h5>
+                <span class="badge font-mono p-0" style="color: #64748b; font-size: 11px;">
+                  FACULTY-ID: #<%= t.TeacherId %>
+                </span>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column gap-2 mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="label-title">Assigned Class</span>
+                <span class="value">#<%= t.ClassId || 'N/A' %></span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="label-title">Assigned Section</span>
+                <span class="value">#<%= t.SectionId || 'N/A' %></span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="label-title">Subject Identity</span>
+                <span class="value">#<%= t.SubjectId %></span>
+              </div>
+            </div>
+
+            <hr style="border-color: rgba(255,255,255,0.06); margin: 1.25rem 0;">
+
+            <div class="d-flex flex-column gap-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="label-title">Gender Standard</span>
+                <span class="value"><%= t.Gender %></span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="label-title">Mobile Line</span>
+                <span class="value text-info font-mono"><%= t.MobileNo %></span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="label-title">Registry Date</span>
+                <span class="value"><%= t.JoiningDate %></span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-4">
+            <span class="badge-custom">
+              <i class="bi bi-shield-check-fill me-1" style="color: #6366f1;"></i> Verified Faculty Node
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <% }) %>
+    <% } else { %>
+
+      <div class="col-12">
+        <div class="p-5 text-center rounded-4" style="border: 1px dashed rgba(255,255,255,0.1); background: rgba(30, 41, 59, 0.3);">
+          <div class="display-6 text-muted mb-3"><i class="bi bi-people-fill"></i></div>
+          <h5 class="text-white fw-bold mb-1">No Teacher Faculty Profiles Found</h5>
+          <p class="text-secondary small mb-0">Initialize the tracking array system by pushing a new dynamic teacher profile data stream.</p>
+        </div>
+      </div>
+
+    <% } %>
+
+  </div>
+</div>
+
+</body>
+</html>

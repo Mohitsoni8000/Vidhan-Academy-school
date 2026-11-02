@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <title>Command Suite | Matrix Management System</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --theme-bg: #020617;
+      --card-bg: rgba(15, 23, 42, 0.45);
+      --theme-indigo: #6366f1;
+      --theme-purple: #a855f7;
+      --theme-cyan: #06b6d4;
+      --neon-glow: rgba(99, 102, 241, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.05);
+    }
+
+    body {
+      background-color: var(--theme-bg);
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      color: #f1f5f9;
+      position: relative;
+    }
+
+    /* --- HARDWARE-ACCELERATED LIVE ANIMATION ENGINE --- */
+    @keyframes nebulaOrbit {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(30px, -15px) scale(1.05); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    @keyframes liveLaserScan {
+      0% { top: -100%; }
+      100% { top: 200%; }
+    }
+
+    /* Ambient Spatial Mesh Background Vectors */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(0,0,0,0) 70%);
+      top: -10%;
+      right: -10%;
+      z-index: 0;
+      pointer-events: none;
+      animation: nebulaOrbit 12s ease-in-out infinite;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(0,0,0,0) 60%);
+      bottom: 5%;
+      left: -5%;
+      z-index: 0;
+      pointer-events: none;
+      animation: nebulaOrbit 15s ease-in-out infinite alternate;
+    }
+
+    .main-viewport {
+      position: relative;
+      z-index: 10;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #38bdf8, var(--theme-indigo) 45%, var(--theme-purple));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Premium Glassmorphic Card Blocks Engine */
+    .matrix-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 28px;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .matrix-card::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--theme-indigo), transparent);
+      top: 0;
+      left: -100%;
+    }
+
+    .matrix-card:hover::after {
+      animation: liveLaserScan 1.5s linear infinite;
+    }
+
+    .matrix-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      border-color: rgba(99, 102, 241, 0.45);
+      background: rgba(15, 23, 42, 0.75);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--neon-glow);
+    }
+
+    /* Hardware Action Module Icon Wrapper */
+    .icon-node {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #a5b4fc;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .matrix-card:hover .icon-node {
+      transform: scale(1.12) rotate(8deg);
+      background: linear-gradient(135deg, var(--theme-indigo), var(--theme-purple));
+      color: #fff;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.45);
+      border-color: transparent;
+    }
+
+    /* Relational Properties Row Setup */
+    .meta-property {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.04);
+      transition: border-color 0.3s ease;
+    }
+
+    .matrix-card:hover .meta-property {
+      border-bottom-color: rgba(99, 102, 241, 0.15);
+    }
+
+    .meta-property:last-child {
+      border-bottom: none;
+    }
+
+    .label-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #64748b;
+      transition: color 0.3s ease;
+    }
+
+    .matrix-card:hover .label-title {
+      color: #94a3b8;
+    }
+
+    .value-tag {
+      font-weight: 600;
+      color: #cbd5e1;
+      font-size: 13px;
+      transition: color 0.3s ease;
+    }
+
+    .matrix-card:hover .value-tag {
+      color: #f8fafc;
+    }
+
+    /* System Gateways Interactive Controls Buttons */
+    .action-gateways {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 20px;
+    }
+
+    .btn-gateway {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-create-node {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      color: #a5b4fc;
+    }
+
+    .btn-create-node:hover {
+      background: linear-gradient(135deg, var(--theme-indigo), var(--theme-purple));
+      color: #ffffff;
+      box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+      transform: translateY(-2px);
+      border-color: transparent;
+    }
+
+    .btn-show-node {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+    }
+
+    .btn-show-node:hover {
+      background: #f1f5f9;
+      color: var(--theme-bg);
+      box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      border-color: #f1f5f9;
+    }
+
+    /* Custom Sidebar Navigation Container Layer */
+    .custom-sidebar {
+      background: rgba(9, 15, 32, 0.95) !important;
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-right: 1px solid rgba(99, 102, 241, 0.15) !important;
+      width: 290px !important;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sidebar-link:hover {
+      background: rgba(99, 102, 241, 0.08);
+      color: #fff;
+      padding-left: 24px;
+    }
+
+    .sidebar-link.active {
+      background: linear-gradient(135deg, var(--theme-indigo), var(--theme-purple));
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Telemetry Interface Status Display */
+    .stat-pill-container {
+      background: rgba(15, 23, 42, 0.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 14px 20px;
+      transition: background 0.3s ease;
+    }
+
+    .stat-pill-container:hover {
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .status-indicator {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .status-indicator .bi-cpu-fill {
+      animation: statusPulse 2s linear infinite;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark py-3 px-3 border-bottom sticky-top" style="background: rgba(2, 6, 23, 0.7); backdrop-filter: blur(15px); border-color: rgba(255,255,255,0.05) !important; z-index: 1000;">
+    <div class="container-fluid">
+      <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#matrixSidebar" aria-controls="matrixSidebar">
+        <i class="bi bi-list fs-3 text-white"></i>
+      </button>
+      
+      <a class="navbar-brand d-flex align-items-center gap-2 mx-auto ms-3" href="#">
+        <i class="bi bi-cpu-fill text-gradient fs-4"></i>
+        <span class="fw-bold tracking-tight text-white font-mono" style="font-size: 16px;">MATRIX_CORE</span>
+      </a>
+
+      <div class="ms-auto">
+        <span class="status-indicator font-mono"><i class="bi bi-cpu-fill me-1.5"></i>CORE: RUNNING</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="offcanvas offcanvas-start custom-sidebar" tabindex="-1" id="matrixSidebar" aria-labelledby="matrixSidebarLabel">
+    <div class="offcanvas-header border-bottom border-secondary border-opacity-10 py-4">
+      <h5 class="offcanvas-title text-white fw-bold font-mono d-flex align-items-center gap-2" id="matrixSidebarLabel">
+        <i class="bi bi-shield-lock-fill text-gradient"></i> Navigation Hub
+      </h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-between py-4">
+      <div class="d-flex flex-column gap-1">
+        <a href="/dash" class="sidebar-link active"><i class="bi bi-grid-1x2-fill"></i> System Dashboard</a>
+        <a href="/admissions/create" class="sidebar-link"><i class="bi bi-mortarboard-fill"></i> Admissions Registry</a>
+        <a href="/teachers/create" class="sidebar-link"><i class="bi bi-person-workspace"></i> Faculty Members</a>
+        <a href="/fees/create" class="sidebar-link"><i class="bi bi-cash-stack"></i> Finance Ledger</a>
+        <a href="/classes/create" class="sidebar-link"><i class="bi bi-door-open-fill"></i> Classes Database</a>
+        <a href="/sections/create" class="sidebar-link"><i class="bi bi-grid-3x3-gap-fill"></i> Section Registry</a>
+        <a href="/subjects/create" class="sidebar-link"><i class="bi bi-book-half"></i> Subject Mappings</a>
+      </div>
+      
+      <div class="pt-3 border-top border-secondary border-opacity-10 text-center text-muted small font-mono">
+        Active Node: <span class="text-white fw-bold">Mohit Soni</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-5 main-viewport">
+
+    <div class="mb-5 d-flex justify-content-between align-items-center flex-wrap gap-3 px-1" data-aos="fade-down" data-aos-duration="1000">
+      <div>
+        <h1 class="fw-bold text-white mb-2 tracking-tight" style="font-weight: 800; font-size: calc(1.8rem + 1.2vw);">
+          System Architecture Suite
+        </h1>
+        <p class="text-secondary mb-0 fs-6">Enterprise resource ledger node to configure arrays and control system schema records.</p>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-5" data-aos="fade-zoom-in" data-aos-duration="1200" data-aos-delay="200">
+      <div class="col-6 col-md-3">
+        <div class="stat-pill-container d-flex align-items-center justify-content-between">
+          <div><small class="label-title block">Data Clusters</small><h4 class="mb-0 fw-bold mt-1 text-white">06 Modules</h4></div>
+          <i class="bi bi-database-fill text-indigo fs-4 opacity-50"></i>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-pill-container d-flex align-items-center justify-content-between">
+          <div><small class="label-title block">Sequelize Status</small><h4 class="mb-0 fw-bold mt-1 text-success">Synced</h4></div>
+          <i class="bi bi-cloud-check-fill text-success fs-4 opacity-50"></i>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-pill-container d-flex align-items-center justify-content-between">
+          <div><small class="label-title block">Server Latency</small><h4 class="mb-0 fw-bold mt-1 font-mono text-info">12ms</h4></div>
+          <i class="bi bi-speedometer2 text-info fs-4 opacity-50"></i>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-pill-container d-flex align-items-center justify-content-between">
+          <div><small class="label-title block">Active Admins</small><h4 class="mb-0 fw-bold mt-1 text-white">Mohit Soni</h4></div>
+          <i class="bi bi-person-fill-lock text-purple fs-4 opacity-50"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+        <div class="matrix-card d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-node"><i class="bi bi-mortarboard-fill"></i></div>
+              <div>
+                <h5 class="fw-bold mb-0 text-white tracking-tight">Student Admissions</h5>
+                <small class="text-secondary font-mono fs-7">Model: Admission</small>
+              </div>
+            </div>
+            <div class="d-flex flex-column mb-1">
+              <div class="meta-property"><span class="label-title">Primary Column</span><span class="value-tag font-mono text-info">AdmissionId</span></div>
+              <div class="meta-property"><span class="label-title">Name String Mapping</span><span class="value-tag">Name, SurName</span></div>
+              <div class="meta-property"><span class="label-title">Parent Indices</span><span class="value-tag text-muted">FatherName, MotherName</span></div>
+            </div>
+          </div>
+          <div class="action-gateways">
+            <a href="/admissions/create" class="btn-gateway btn-create-node"><i class="bi bi-plus-lg"></i> Create</a>
+            <a href="/Admission/admission2" class="btn-gateway btn-show-node"><i class="bi bi-grid-fill"></i> Show All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <div class="matrix-card d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-node"><i class="bi bi-person-workspace"></i></div>
+              <div>
+                <h5 class="fw-bold mb-0 text-white tracking-tight">Faculty Management</h5>
+                <small class="text-secondary font-mono fs-7">Model: Teacher</small>
+              </div>
+            </div>
+            <div class="d-flex flex-column mb-1">
+              <div class="meta-property"><span class="label-title">Internal Token Key</span><span class="value-tag font-mono text-info">TeacherId</span></div>
+              <div class="meta-property"><span class="label-title">Mobile Line Reference</span><span class="value-tag font-mono">MobileNo</span></div>
+              <div class="meta-property"><span class="label-title">Foreign Key Chains</span><span class="value-tag text-warning">ClassId, SectionId</span></div>
+            </div>
+          </div>
+          <div class="action-gateways">
+            <a href="/teachers/create" class="btn-gateway btn-create-node"><i class="bi bi-person-plus-fill"></i> Create</a>
+            <a href="/Teacher/teacher2" class="btn-gateway btn-show-node"><i class="bi bi-grid-fill"></i> Show All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+        <div class="matrix-card d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-node" style="border-color: rgba(6, 182, 212, 0.3); color: var(--theme-cyan);"><i class="bi bi-credit-card-2-front-fill"></i></div>
+              <div>
+                <h5 class="fw-bold mb-0 text-white tracking-tight">Finance Ledger</h5>
+                <small class="text-secondary font-mono fs-7">Model: Fees</small>
+              </div>
+            </div>
+            <div class="d-flex flex-column mb-1">
+              <div class="meta-property"><span class="label-title">Statement Key</span><span class="value-tag font-mono text-cyan">FeesId</span></div>
+              <div class="meta-property"><span class="label-title">Decimal Data Allocation</span><span class="value-tag text-success">Amount INR</span></div>
+              <div class="meta-property"><span class="label-title">BelongsTo Relational Map</span><span class="value-tag text-purple">AdmissionId</span></div>
+            </div>
+          </div>
+          <div class="action-gateways">
+            <a href="/fees/create" class="btn-gateway btn-create-node" style="border-color: rgba(6, 182, 212, 0.3); color: #99f6e4;"><i class="bi bi-cash-stack"></i> Create</a>
+            <a href="/Fees/fees2" class="btn-gateway btn-show-node"><i class="bi bi-grid-fill"></i> Show All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+        <div class="matrix-card d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-node"><i class="bi bi-door-open-fill"></i></div>
+              <div>
+                <h5 class="fw-bold mb-0 text-white tracking-tight">Classes Structural</h5>
+                <small class="text-secondary font-mono fs-7">Model: Class</small>
+              </div>
+            </div>
+            <div class="d-flex flex-column mb-1">
+              <div class="meta-property"><span class="label-title">Index Map Integer</span><span class="value-tag font-mono text-info">ClassId</span></div>
+              <div class="meta-property"><span class="label-title">String Assignment Label</span><span class="value-tag">ClassName</span></div>
+              <div class="meta-property"><span class="label-title">Association Arrays</span><span class="value-tag text-muted">HasMany (Teacher)</span></div>
+            </div>
+          </div>
+          <div class="action-gateways">
+            <a href="/classes/create" class="btn-gateway btn-create-node"><i class="bi bi-folder-plus"></i> Create</a>
+            <a href="/Class/class2" class="btn-gateway btn-show-node"><i class="bi bi-grid-fill"></i> Show All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
+        <div class="matrix-card d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-node"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+              <div>
+                <h5 class="fw-bold mb-0 text-white tracking-tight">Sections Registry</h5>
+                <small class="text-secondary font-mono fs-7">Model: Section</small>
+              </div>
+            </div>
+            <div class="d-flex flex-column mb-1">
+              <div class="meta-property"><span class="label-title">Sequence Auto Key</span><span class="value-tag font-mono text-info">SectionId</span></div>
+              <div class="meta-property"><span class="label-title">Length Constraint</span><span class="value-tag">Name (STRING(10))</span></div>
+              <div class="meta-property"><span class="label-title">Entity State Flags</span><span class="value-tag text-muted">Timestamps Active</span></div>
+            </div>
+          </div>
+          <div class="action-gateways">
+            <a href="/sections/create" class="btn-gateway btn-create-node"><i class="bi bi-plus-square-fill"></i> Create</a>
+            <a href="/Section/section2" class="btn-gateway btn-show-node"><i class="bi bi-grid-fill"></i> Show All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+        <div class="matrix-card d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-node"><i class="bi bi-book-half"></i></div>
+              <div>
+                <h5 class="fw-bold mb-0 text-white tracking-tight">Course Subjects</h5>
+                <small class="text-secondary font-mono fs-7">Model: Subject</small>
+              </div>
+            </div>
+            <div class="d-flex flex-column mb-1">
+              <div class="meta-property"><span class="label-title">Subject Target Key</span><span class="value-tag font-mono text-info">SubjectId</span></div>
+              <div class="meta-property"><span class="label-title">String Codification</span><span class="value-tag">SubjectName</span></div>
+              <div class="meta-property"><span class="label-title">Dependency Tree</span><span class="value-tag text-muted">Required Reference</span></div>
+            </div>
+          </div>
+          <div class="action-gateways">
+            <a href="/subjects/create" class="btn-gateway btn-create-node"><i class="bi bi-journal-plus"></i> Create</a>
+            <a href="/Subject/subject2" class="btn-gateway btn-show-node"><i class="bi bi-grid-fill"></i> Show All</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true, 
+      mirror: false
+    });
+  </script>
+
+</body>
+</html>
